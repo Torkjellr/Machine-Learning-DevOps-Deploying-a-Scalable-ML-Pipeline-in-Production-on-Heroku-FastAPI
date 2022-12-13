@@ -1,5 +1,6 @@
 from sklearn.metrics import fbeta_score, precision_score, recall_score
-
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import GridSearchCV
 
 # Optional: implement hyperparameter tuning.
 def train_model(X_train, y_train):
@@ -18,7 +19,20 @@ def train_model(X_train, y_train):
         Trained machine learning model.
     """
 
-    pass
+    # Define the model
+    model = LogisticRegression()
+
+    # Define the hyperparameters to tune
+    hyperparameters = {'C': [0.1, 1, 10, 100],
+                       'penalty': ['l1', 'l2']}
+
+    # Use a cross-validation grid search to tune the hyperparameters
+
+    grid_search = GridSearchCV(model, hyperparameters, cv=5)
+    grid_search.fit(X_train, y_train)
+
+    # Return the best performing model from the grid search
+    return grid_search.best_estimator_
 
 
 def compute_model_metrics(y, preds):
@@ -48,7 +62,7 @@ def inference(model, X):
 
     Inputs
     ------
-    model : ???
+    model : sklearn.linear_model
         Trained machine learning model.
     X : np.array
         Data used for prediction.
@@ -57,4 +71,4 @@ def inference(model, X):
     preds : np.array
         Predictions from the model.
     """
-    pass
+    return model.predict(X)
