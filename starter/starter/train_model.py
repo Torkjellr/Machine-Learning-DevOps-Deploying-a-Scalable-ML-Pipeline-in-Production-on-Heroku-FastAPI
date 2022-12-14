@@ -2,8 +2,8 @@
 from sklearn.model_selection import train_test_split
 
 # Add the necessary imports for the starter code.
-from model import train_model, compute_model_metrics, inference
-from data import process_data
+from ml.model import train_model, compute_model_metrics, inference
+from ml.data import process_data
 import pandas as pd
 from joblib import dump
 

@@ -72,3 +72,23 @@ def inference(model, X):
         Predictions from the model.
     """
     return model.predict(X)
+
+
+def model_performance_on_categorical_slices(model, data):
+    # Get the categorical features from the data
+    categorical_features = [col for col in data.columns if data[col].dtype == "object"]
+
+    # Loop through each categorical feature and output the performance of the model on slices of the data where each slice
+    # contains only one unique value of the categorical feature
+    for feature in categorical_features:
+        # Get the unique values of the categorical feature
+        unique_values = data[feature].unique()
+        
+        # Loop through each unique value and output the performance of the model on the data where the value of the
+        # categorical feature is equal to the unique value
+        for value in unique_values:
+            # Create a slice of the data where the value of the categorical feature is equal to the unique value
+            slice_data = data[data[feature] == value]
+            
+            # Output the performance of the model on the slice of the data
+            print(f"Performance on {feature} = {value}: {inference(model, slice_data)}")
