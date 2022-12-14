@@ -5,7 +5,7 @@ import joblib
 from fastapi import FastAPI
 from pydantic import BaseModel
 from fastapi import FastAPI
-from starter.ml.model import inference
+from ml.model import inference
 
 app = FastAPI()
 

@@ -2,8 +2,8 @@
 from sklearn.model_selection import train_test_split
 
 # Add the necessary imports for the starter code.
-from ml.model import train_model, compute_model_metrics, inference
-from ml.data import process_data
+from starter.ml.model import train_model, compute_model_metrics, inference
+from starter.ml.data import process_data
 import pandas as pd
 from joblib import dump
 
@@ -39,3 +39,6 @@ def train_test_model():
     dump(encoder, f"/model/encoder.joblib")
     dump(lb, f"/model/lb.joblib")
 
+if __name__ == "__main__":
+    train_test_model()
+    pass
