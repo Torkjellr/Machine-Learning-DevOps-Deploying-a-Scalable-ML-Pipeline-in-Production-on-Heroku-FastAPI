@@ -2,12 +2,27 @@
 from sklearn.model_selection import train_test_split
 
 # Add the necessary imports for the starter code.
-from starter.ml.model import train_model, compute_model_metrics, inference
-from starter.ml.data import process_data
+from ml.model import train_model, compute_model_metrics, inference, model_performance_on_categorical_slices
+from ml.data import process_data
 import pandas as pd
 from joblib import dump
 
 def train_test_model():
+    """
+    Trains a model on a training dataset, saves the trained model, and outputs the performance of the model on a test dataset.
+    
+    This function loads a dataset from a CSV file, splits the data into a training set and a test set, trains a model on 
+    the training set, saves the trained model to a file, and outputs the performance of the model on the test set.
+    
+    Returns
+    -------
+    None
+    
+    Example
+    -------
+    train_test_model()
+    """
+
     # Add code to load in the data.
     data = pd.read_csv(f"starter/data/census.csv")
 
@@ -24,21 +39,19 @@ def train_test_model():
         "sex",
         "native-country",
     ]
-    X_train, y_train, encoder, lb = process_data(
-        train, categorical_features=cat_features, label="salary", training=True
-    )
+
+    # Train and save a model.
+    model = train_model(train, categorical_features=cat_features)
 
     # Proces the test data with the process_data function.
-    X_train, y_train, encoder, lb = process_data(
+    X_test, y_test, encoder, lb = process_data(
         test, categorical_features=cat_features, label="salary", training=True
     )
-    # Train and save a model.
-    model = train_model(X_train, y_train)
-
-    dump(model, f"model/model.joblib")
-    dump(encoder, f"/model/encoder.joblib")
-    dump(lb, f"/model/lb.joblib")
+    
+    model_performance_on_categorical_slices(model,
+        inference(model, X_test),
+        y_test
+    )
 
 if __name__ == "__main__":
     train_test_model()
-    pass
