@@ -46,7 +46,7 @@ async def infere(input: InferenceInput):
         "capital-loss", 
         "hours-per-week"
     ]
-    for k, nk in zip(pedantic_keys, new_keys)
+    for k, nk in zip(pedantic_keys, new_keys):
         data[nk] = data.pop(k)
 
 
