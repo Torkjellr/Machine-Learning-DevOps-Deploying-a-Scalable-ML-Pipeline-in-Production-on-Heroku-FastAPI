@@ -25,7 +25,7 @@ def train_model(train_data, categorical_features):
     """
 
     X_train, y_train, encoder, lb = process_data(
-        train_data, 
+        train_data,
         categorical_features=categorical_features,
         label="salary",
         training=True
@@ -42,7 +42,7 @@ def train_model(train_data, categorical_features):
 
     grid_search = GridSearchCV(model, hyperparameters, cv=5)
     grid_search.fit(X_train, y_train)
-    
+
     dump(model, f"model/model.joblib")
     dump(encoder, f"model/encoder.joblib")
     dump(lb, f"model/lb.joblib")
@@ -90,15 +90,16 @@ def inference(model, X):
     return model.predict(X)
 
 
-def model_performance_on_categorical_slices(model, values:pd.DataFrame, target: np.ndarray):
+def model_performance_on_categorical_slices(
+        model, values: pd.DataFrame, target: np.ndarray):
     """
-    Outputs the performance of a model on slices of a dataset where each slice contains only one unique value of a 
+    Outputs the performance of a model on slices of a dataset where each slice contains only one unique value of a
     categorical feature.
-    
-    This function takes a model, a DataFrame of input values, and an array of target values as input, and it outputs 
-    the performance of the model on slices of the input values and target values where each slice contains only one 
+
+    This function takes a model, a DataFrame of input values, and an array of target values as input, and it outputs
+    the performance of the model on slices of the input values and target values where each slice contains only one
     unique value of a categorical feature.
-    
+
     Parameters
     ----------
     model : object
@@ -107,11 +108,11 @@ def model_performance_on_categorical_slices(model, values:pd.DataFrame, target: 
         A DataFrame containing the input values. The DataFrame must have at least one categorical column.
     target : np.ndarray
         An array containing the target values.
-        
+
     Returns
     -------
     None
-    
+
     Example
     -------
     model = LogisticRegression()
@@ -123,22 +124,25 @@ def model_performance_on_categorical_slices(model, values:pd.DataFrame, target: 
     """
 
     # Get the categorical features from the data
-    categorical_features = [col for col in values.columns if values[col].dtype == "object"]
+    categorical_features = [
+        col for col in values.columns if values[col].dtype == "object"]
 
     # Loop through each categorical feature and output the performance of the model on slices of the data where each slice
     # contains only one unique value of the categorical feature
     for feature in categorical_features:
         # Get the unique values of the categorical feature
         unique_values = values[feature].unique()
-        
+
         # Loop through each unique value and output the performance of the model on the data where the value of the
         # categorical feature is equal to the unique value
         for value in unique_values:
             mask = values[feature].isin([value])
-            
-            # Create a slice of the data where the value of the categorical feature is equal to the unique value
+
+            # Create a slice of the data where the value of the categorical
+            # feature is equal to the unique value
             slice_data = values[mask]
             slice_target = target[mask]
             preds = inference(model, slice_data)
             # Output the performance of the model on the slice of the data
-            print(f"Performance on {feature} = {value}: {compute_model_metrics(slice_target, preds)}")
+            print(
+                f"Performance on {feature} = {value}: {compute_model_metrics(slice_target, preds)}")
