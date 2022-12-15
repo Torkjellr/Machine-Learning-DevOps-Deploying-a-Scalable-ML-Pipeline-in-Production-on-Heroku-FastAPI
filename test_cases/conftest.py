@@ -4,7 +4,7 @@ import pandas as pd
 @pytest.fixture
 def raw_data():
     # Add code to load in the data.
-    return pd.read_csv(f"starter/data/census.csv")
+    return pd.read_csv(f"data/census.csv")
 
 @pytest.fixture
 def cat_features():

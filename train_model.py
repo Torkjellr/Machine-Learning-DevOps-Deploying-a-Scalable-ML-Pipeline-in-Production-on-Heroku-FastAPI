@@ -24,7 +24,7 @@ def train_test_model():
     """
 
     # Add code to load in the data.
-    data = pd.read_csv(f"starter/data/census.csv")
+    data = pd.read_csv(f"data/census.csv")
 
     # Optional enhancement, use K-fold cross validation instead of a train-test split.
     train, test = train_test_split(data, test_size=0.20)

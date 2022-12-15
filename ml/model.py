@@ -36,7 +36,7 @@ def train_model(train_data, categorical_features):
 
     # Define the hyperparameters to tune
     hyperparameters = {'C': [0.1, 1, 10, 100],
-                       'penalty': ['l1', 'l2']}
+                       'penalty': ['l2']}
 
     # Use a cross-validation grid search to tune the hyperparameters
 
@@ -44,8 +44,8 @@ def train_model(train_data, categorical_features):
     grid_search.fit(X_train, y_train)
     
     dump(model, f"model/model.joblib")
-    dump(encoder, f"/model/encoder.joblib")
-    dump(lb, f"/model/lb.joblib")
+    dump(encoder, f"model/encoder.joblib")
+    dump(lb, f"model/lb.joblib")
 
     # Return the best performing model from the grid search
     return grid_search.best_estimator_
